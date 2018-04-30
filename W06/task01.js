@@ -17,7 +17,7 @@ function main()
     
     var camera_left = new THREE.PerspectiveCamera( fov, aspect, near, far );
     //一般的に3Dレンダリングに使われる人間の視点を模したカメラ
-    camera_left.position.set( 5, 5, 20 );
+    camera_left.position.set( 0, 0, 5 );
     //( x, y, z )にカメラをセット デフォルトではカメラの向きはxy平面に垂直下向き
     //camera_left.lookAt( 0, 0, 0 );
     //カメラに原点を向くように指示
@@ -33,9 +33,11 @@ function main()
     scene.add( light );
 
     var renderer = new THREE.WebGLRenderer();
-    renderer.setSize( width, height );
+    //renderer.setSize( width, height );
     document.body.appendChild( renderer.domElement );
+    //DOMツリーのbodyノードに子ノードを加える
     renderer.autoClear=false
+    //レンダラーが前の出力結果を消さないようにする。デフォルトだとtrue
 
     var geometry = new THREE.TorusKnotGeometry( 1, 0.3, 100, 20 );
     
@@ -43,11 +45,13 @@ function main()
     var material_left = new THREE.ShaderMaterial({
 	vertexColors: THREE.VertexColors,
 	vertexShader: document.getElementById('lambert.vert').text,
+	//任意のHTMLタグで指定したIDにマッチするドキュメント要素を取得する
 	fragmentShader: document.getElementById('lambert.frag').text,
 	uniforms: {
 	    light_position: {type: 'v3',value: light.position},
 	}  
     });
+    //オブジェクト初期化子を使ってオブジェクトを生成
     
     var material_right = new THREE.ShaderMaterial({
 	vertexColors: THREE.VertexColors,
@@ -64,20 +68,22 @@ function main()
     var torus_knot_right = new THREE.Mesh( geometry, material_right );
     scene.add( torus_knot_left );
     scene.add( torus_knot_right );
-    // torus_knot_left.position.set(0,0,0);
+    torus_knot_left.position.set(0,0,0);
     torus_knot_right.position.set(10,10,0);
 
     loop();
 
     var screen_width = window.innerWidth;
     var screen_height = window.innerHeight;
+    //ウインドウサイズの取得
 
     renderer.setSize( screen_width, screen_height);
     camera_left.aspect = 0.5 * screen_width / screen_height;
     camera_right.aspect = 0.5 * screen_width / screen_height;
     camera_left.updateProjectionMatrix();
     camera_right.updateProjectionMatrix();
-    
+    //カメラの内部状態を更新
+
     function loop()
     {
 	
