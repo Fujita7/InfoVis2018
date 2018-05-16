@@ -80,9 +80,6 @@ function Isosurfaces( volume, isovalue )
 		    geometry.faces[i].vertexColors.push( c1 );
 		    geometry.faces[i].vertexColors.push( c2 );
 		    
-		    /*if ( v01[1] != 0 && v23[1] != 0 && v45[1] != 0) {
-			console.log( geometry.faces[i].vertexColors );
-		    } */ 
 		    i++;
 		}
 	    }
@@ -92,7 +89,6 @@ function Isosurfaces( volume, isovalue )
     }
 
     geometry.computeVertexNormals();
-
 
     material.vertexColors = THREE.VertexColors;
 
@@ -140,21 +136,23 @@ function Isosurfaces( volume, isovalue )
 
 	if ( v0.x != v1.x ) {
 	    var x = point.x - ( normal.y*y0 + normal.z*z0 ) / normal.x;
-	    var s = parseInt(s0 * ( x - v0.x ) / ( v1.x - v0.x ));		
+	    var t = ( x - v0.x ) / ( v1.x - v0.x );
+	    var s = parseInt(s0 * t + s1 * (1-t));
 	    var v = new THREE.Vector3( x, v0.y, v0.z );
 	}
 	if ( v0.y != v1.y ) {
 	    var y = point.y - ( normal.x*x0 + normal.z*z0 ) / normal.y;
-	    var s = parseInt(s0 * ( y - v0.y ) / ( v1.y - v0.y ));
+	    var t = ( y - v0.y ) / ( v1.y - v0.y );
+	    var s = parseInt(s0 * t + s1 * (1-t));
 	    var v =  new THREE.Vector3( v0.x, y, v0.z );
 	}
 	if ( v0.z != v1.z ) {
 	    var z = point.z - ( normal.x*x0 + normal.y*y0 ) / normal.z;
-	    var s = parseInt(s0 * ( z - v0.z ) / ( v1.z - v0.z ));
+	    var t = ( z - v0.z ) / ( v1.z - v0.z );
+	    var s = parseInt(s0 * t + s1 * (1-t));
 	    var v = new THREE.Vector3( v0.x, v0.y, z );
 	}
-	//	if ( s0 != 0 ) { console.log( s ); }
-
+	
 	return [ v, s ];
     }
 
