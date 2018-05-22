@@ -1,0 +1,11 @@
+volume renderingでは順番に計算していかなければならない。
+back-to-front 後ろから前に順番に計算：　
+front-to-back 前から後ろ： 不透明度が1を超えたとき、それ以上描画されることはないので、早めに計算を打ち切ることができる。一方で不透明度を保持するのでメモリが倍以上必要となる。最近ではほとんどこっち。
+brightness equation:輝度値方程式
+poisson distribution:ポアソン分布
+volume renderingでは法線ベクトル(Normal vector)としてスカラー勾配(scalar gradient)を計算する。
+Image-oreder approach:視点からのvolume dataに対するRayごとにループ計算を行う。
+Object-order approach:volume dataのsliceごとにループ計算をする。
+axis-aligned slices:	     問題点としてスライス間の距離が視点が近づくことなどによって相対的に大きくなるとき、スライスされている様子が明確に見えてしまうことがある。なので視点方向と垂直にスライスしよう！
+volume renderingにおいて、まず必要なのが輝度値計算をどこからどこまで行うかを計算することであり、ピクセルとRayの交点をいちいち計算していると処理が重い。
+Two-pass rendering:ひとつの画像を作るのにbounding boxの後ろ面を書き、二つ目に前面を書き計算を行っていく?
