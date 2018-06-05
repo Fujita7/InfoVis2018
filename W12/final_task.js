@@ -29,7 +29,7 @@ function setup(volume, screen, guiControls)
     
     gui.add(guiControls, "line_width", 1, 8).onChange( changeStreamLine );
     gui.add(guiControls, "integration_step_length", 0, 5).onChange( changeStreamLine );
-    gui.add(guiControls, "integration_time", 0, 40).onChange( changeStreamLine );
+    gui.add(guiControls, "integration_time", 0, 1000).onChange( changeStreamLine );
 
     var folder = gui.addFolder('seed_point');
     folder.add(guiControls, "x", 0, 63).onChange( changeStreamLine );
